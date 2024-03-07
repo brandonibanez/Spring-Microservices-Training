@@ -1,0 +1,11 @@
+build:
+  version: "2.0"
+
+accounts:
+  message: "Welcome to BrandonBank accounts related QA APIs "
+  contactDetails:
+    name: "Brandon Browns Jr - QA Lead"
+    email: "brandon@brownsbank.com"
+  onCallSupport:
+    - (666) 265-3765
+    - (666) 734-8371

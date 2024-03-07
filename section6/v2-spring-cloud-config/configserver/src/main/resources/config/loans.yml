@@ -1,0 +1,11 @@
+build:
+  version: "3.0"
+
+loans:
+  message: "Welcome to BrandonBank accounts related local APIs "
+  contactDetails:
+    name: "Brandon Browns - Developer"
+    email: "brandon@brownsbank.com"
+  onCallSupport:
+    - (555) 555-1234
+    - (555) 523-1345
