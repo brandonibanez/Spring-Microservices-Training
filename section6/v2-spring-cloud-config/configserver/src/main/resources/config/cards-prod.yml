@@ -2,7 +2,7 @@ build:
   version: "1.0"
 
 cards:
-  message: "Welcome to BrandonBank accounts related prod APIs "
+  message: "Welcome to BrandonBank cards related prod APIs "
   contactDetails:
     name: "Brandon Browns Sr - Product Owner"
     email: "brandon@brownsbank.com"

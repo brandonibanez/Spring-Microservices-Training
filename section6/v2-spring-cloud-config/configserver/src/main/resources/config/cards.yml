@@ -2,7 +2,7 @@ build:
   version: "3.0"
 
 cards:
-  message: "Welcome to BrandonBank accounts related local APIs "
+  message: "Welcome to BrandonBank cards related local APIs "
   contactDetails:
     name: "Brandon Browns - Developer"
     email: "brandon@brownsbank.com"

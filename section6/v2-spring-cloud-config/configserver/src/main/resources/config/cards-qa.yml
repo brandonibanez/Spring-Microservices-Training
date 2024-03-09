@@ -2,7 +2,7 @@ build:
   version: "2.0"
 
 cards:
-  message: "Welcome to BrandonBank accounts related QA APIs "
+  message: "Welcome to BrandonBank cards related QA APIs "
   contactDetails:
     name: "Brandon Browns Jr - QA Lead"
     email: "brandon@brownsbank.com"

@@ -2,7 +2,7 @@ build:
   version: "3.0"
 
 loans:
-  message: "Welcome to BrandonBank accounts related local APIs "
+  message: "Welcome to BrandonBank loans related local APIs "
   contactDetails:
     name: "Brandon Browns - Developer"
     email: "brandon@brownsbank.com"
