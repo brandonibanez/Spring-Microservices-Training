@@ -52,5 +52,5 @@ eureka:
 info:
   app:
     name: "cards"
-    description: "Browns Bank Accounts Application"
+    description: "Browns Bank Cards Application"
     version: "1.0.0"
