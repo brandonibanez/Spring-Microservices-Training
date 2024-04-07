@@ -19,19 +19,19 @@ public class GatewayserverApplication {
 	public RouteLocator brownsBankRouteConfig(RouteLocatorBuilder routeLocatorBuilder) {
 		return routeLocatorBuilder.routes()
 				.route(p -> p
-						.path("/brownsbank/accounts/**")
-						.filters( f -> f.rewritePath("/brownsbank/accounts/(?<segment>.*)","/${segment}")
-						.addResponseHeader("X-Response-Time", LocalDateTime.now().toString()))
+						.path("/brownsBank/accounts/**")
+						.filters( f -> f.rewritePath("/brownsBank/accounts/(?<segment>.*)","/${segment}")
+							.addResponseHeader("X-Response-Time", LocalDateTime.now().toString()))
 						.uri("lb://ACCOUNTS"))
 				.route(p -> p
-						.path("/brownsbank/loans/**")
-						.filters( f -> f.rewritePath("/brownsbank/loans/(?<segment>.*)","/${segment}")
-						.addResponseHeader("X-Response-Time", LocalDateTime.now().toString()))
+						.path("/brownsBank/loans/**")
+						.filters( f -> f.rewritePath("/brownsBank/loans/(?<segment>.*)","/${segment}")
+							.addResponseHeader("X-Response-Time", LocalDateTime.now().toString()))
 						.uri("lb://LOANS"))
 				.route(p -> p
-						.path("/brownsbank/cards/**")
-						.filters( f -> f.rewritePath("/brownsbank/cards/(?<segment>.*)","/${segment}")
-						.addResponseHeader("X-Response-Time", LocalDateTime.now().toString()))
+						.path("/brownsBank/cards/**")
+						.filters( f -> f.rewritePath("/brownsBank/cards/(?<segment>.*)","/${segment}")
+							.addResponseHeader("X-Response-Time", LocalDateTime.now().toString()))
 						.uri("lb://CARDS")).build();
 	}
 
