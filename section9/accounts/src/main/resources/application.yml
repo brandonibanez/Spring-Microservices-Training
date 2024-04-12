@@ -54,3 +54,9 @@ info:
     name: "accounts"
     description: "Browns Bank Accounts Application"
     version: "1.0.0"
+
+logging:
+  level:
+    com:
+      brandoncode:
+        accounts: DEBUG

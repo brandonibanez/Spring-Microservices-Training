@@ -31,5 +31,5 @@ info:
 logging:
   level:
     com:
-      eazybytes:
+      brandoncode:
         gatewayserver: DEBUG
