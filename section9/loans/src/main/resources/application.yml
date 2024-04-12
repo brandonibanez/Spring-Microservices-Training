@@ -5,8 +5,6 @@ spring:
     name: "loans"
   profiles:
     active: "prod"
-  main:
-    banner-mode: off
   datasource:
     url: jdbc:h2:mem:testdb
     driverClassName: org.h2.Driver
@@ -28,9 +26,17 @@ management:
     web:
       exposure:
         include: "*"
+  health:
+    readiness-state:
+      enabled: true
+    liveness-state:
+      enabled: true
   endpoint:
     shutdown:
       enabled: true
+    health:
+      probes:
+        enabled: true
   info:
     env:
       enabled: true
@@ -38,7 +44,6 @@ management:
 endpoints:
   shutdown:
     enabled: true
-
 
 eureka:
   instance:
