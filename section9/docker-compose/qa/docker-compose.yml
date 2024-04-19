@@ -1,6 +1,6 @@
 services:
   configserver:
-    image: "brandonibanez/configserver:s8"
+    image: "brandonibanez/configserver:s9"
     container_name: configserver-ms
     ports:
       - "8071:8071"
@@ -15,7 +15,7 @@ services:
       service: microservice-base-config
 
   eurekaserver:
-    image: "brandonibanez/eurekaserver:s8"
+    image: "brandonibanez/eurekaserver:s9"
     container_name: eurekaserver-ms
     ports:
       - "8070:8070"
@@ -35,7 +35,7 @@ services:
       SPRING_APPLICATION_NAME: "eurekaserver"
 
   accounts:
-    image: "brandonibanez/accounts:s8"
+    image: "brandonibanez/accounts:s9"
     container_name: accounts-ms
     ports:
       - "8080:8080"
@@ -44,6 +44,12 @@ services:
         condition: service_healthy
       eurekaserver:
         condition: service_healthy
+    healthcheck:
+      test: "curl --fail --silent localhost:8080/actuator/health/readiness | grep UP || exit 1"
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
     environment:
       SPRING_APPLICATION_NAME: "accounts"
     extends:
@@ -51,7 +57,7 @@ services:
       service: microservice-eureka-config
 
   loans:
-    image: "brandonibanez/loans:s8"
+    image: "brandonibanez/loans:s9"
     container_name: loans-ms
     ports:
       - "8090:8090"
@@ -60,6 +66,12 @@ services:
         condition: service_healthy
       eurekaserver:
         condition: service_healthy
+    healthcheck:
+      test: "curl --fail --silent localhost:8090/actuator/health/readiness | grep UP || exit 1"
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
     environment:
       SPRING_APPLICATION_NAME: "loans"
     extends:
@@ -67,7 +79,7 @@ services:
       service: microservice-eureka-config
 
   cards:
-    image: "brandonibanez/cards:s8"
+    image: "brandonibanez/cards:s9"
     container_name: cards-ms
     ports:
       - "9000:9000"
@@ -76,8 +88,32 @@ services:
         condition: service_healthy
       eurekaserver:
         condition: service_healthy
+    healthcheck:
+      test: "curl --fail --silent localhost:9000/actuator/health/readiness | grep UP || exit 1"
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
     environment:
       SPRING_APPLICATION_NAME: "cards"
+    extends:
+      file: common-config.yml
+      service: microservice-eureka-config
+
+  gatewayserver:
+    image: "brandonibanez/gatewayserver:s9"
+    container_name: gatewayserver-ms
+    ports:
+      - "8072:8072"
+    depends_on:
+      accounts:
+        condition: service_healthy
+      loans:
+        condition: service_healthy
+      cards:
+        condition: service_healthy
+    environment:
+      SPRING_APPLICATION_NAME: "gatewayserver"
     extends:
       file: common-config.yml
       service: microservice-eureka-config
