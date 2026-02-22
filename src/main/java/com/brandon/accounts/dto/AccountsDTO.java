@@ -3,7 +3,7 @@ package com.brandon.accounts.dto;
 import lombok.Data;
 
 @Data
-public class AccountsDTO {
+public class AccountsDto {
 
     private Long accountNumber;
 
