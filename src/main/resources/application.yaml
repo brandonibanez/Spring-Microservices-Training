@@ -13,4 +13,10 @@ spring:
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
       ddl-auto: update
-    show-sql: true
+    show-sql: false
+  main:
+    banner-mode: "off"
+logging:
+  level:
+    root: OFF
+    com.brandon: INFO
