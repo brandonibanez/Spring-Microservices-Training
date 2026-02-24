@@ -19,6 +19,7 @@ import com.brandon.accounts.repository.AccountsRepository;
 import com.brandon.accounts.repository.CustomerRepository;
 import com.brandon.accounts.service.IAccountsService;
 
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 
 @Service
@@ -101,5 +102,20 @@ public class AccountsServiceImpl implements IAccountsService {
             isUpdated = true;
         }
         return isUpdated;
+    }
+
+    /**
+     * @param mobileNumber - Input Mobile Number
+     * @return boolean indicating if the delete of Account details is successful or
+     *         not
+     */
+    @Override
+    @Transactional
+    public boolean deleteAccount(String mobileNumber) {
+        Customer customer = customerRepository.findByMobileNumber(mobileNumber).orElseThrow(
+                () -> new ResourceNotFoundException("Customer", "mobileNumber", mobileNumber));
+        accountsRepository.deleteByCustomerId(customer.getCustomerId());
+        customerRepository.deleteById(customer.getCustomerId());
+        return true;
     }
 }
