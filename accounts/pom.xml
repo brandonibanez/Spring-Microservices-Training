@@ -12,6 +12,7 @@
 	<groupId>com.brandon</groupId>
 	<artifactId>accounts</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
 	<name>accounts</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
