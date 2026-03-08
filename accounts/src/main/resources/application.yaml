@@ -20,3 +20,6 @@ logging:
   level:
     root: OFF
     com.brandon: INFO
+
+build:
+  version: "1.0"

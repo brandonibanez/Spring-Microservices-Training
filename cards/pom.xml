@@ -128,7 +128,7 @@
                 <version>3.5.1</version>
                 <configuration>
                     <to>
-                        <image>brandonibanez/${project.artifactId}:s4</image>
+                        <image>brandonibanez/${project.artifactId}:s6</image>
                     </to>
                 </configuration>
             </plugin>
