@@ -1,0 +1,16 @@
+spring:
+  config:
+    activate:
+      on-profile: "qa"
+
+build:
+  version: "2.0"
+
+accounts:
+  message: "Welcome to Browns Bank accounts related QA APIs "
+  contactDetails:
+    name: "Bandon Gandony - QA Lead"
+    email: "bandon@gandony.com"
+  onCallSupport:
+    - (123) 123-3765
+    - (123) 123-8371
