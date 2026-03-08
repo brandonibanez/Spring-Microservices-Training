@@ -23,3 +23,12 @@ logging:
 
 build:
   version: "1.0"
+
+accounts:
+  message: "Welcome to Browns Banks accounts related local APIs"
+  contactDetails:
+    name: "Bandon Gandon - Developer"
+    email: "bandon@gandon.com"
+  onCallSupport:
+    - (333) 123-1234
+    - (333) 324-1345
