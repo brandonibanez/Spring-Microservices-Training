@@ -1,5 +1,12 @@
 spring:
   application:
-    name: configserver
+    name: "configserver"
+  profiles:
+    active: "native"
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: "classpath:/config"
 server:
   port: 8071
