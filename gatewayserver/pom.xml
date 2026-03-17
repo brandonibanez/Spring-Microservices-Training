@@ -10,10 +10,10 @@
 		<!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.brandon</groupId>
-	<artifactId>configserver</artifactId>
+	<artifactId>gatewayserver</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>configserver</name>
-	<description>Demo project for Spring Boot</description>
+	<name>gatewayserver</name>
+	<description>Gateway Server</description>
 	<url/>
 	<licenses>
 		<license/>
@@ -38,21 +38,27 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-config-server</artifactId>
+			<artifactId>spring-cloud-starter-config</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-gateway-server-webmvc</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<scope>runtime</scope>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator-test</artifactId>
 			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-bus-amqp</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-config-monitor</artifactId>
 		</dependency>
 	</dependencies>
 	<dependencyManagement>
@@ -73,17 +79,17 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-			<plugin>
-				<groupId>com.google.cloud.tools</groupId>
-				<artifactId>jib-maven-plugin</artifactId>
-				<version>3.5.1</version>
-				<configuration>
-					<to>
-						<image>brandonibanez/${project.artifactId}:s9</image>
-					</to>
-				</configuration>
-			</plugin>
 		</plugins>
+		<plugin>
+			<groupId>com.google.cloud.tools</groupId>
+			<artifactId>jib-maven-plugin</artifactId>
+			<version>3.5.1</version>
+			<configuration>
+				<to>
+					<image>brandonibanez/${project.artifactId}:s9</image>
+				</to>
+			</configuration>
+		</plugin>
 	</build>
 
 </project>
