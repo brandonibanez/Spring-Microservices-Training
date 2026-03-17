@@ -1,5 +1,8 @@
 package com.brandon.gatewayserver;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.gateway.route.RouteLocator;
@@ -18,15 +21,18 @@ public class Application {
 		return builder.routes()
 				.route(r -> r
 						.path("/brandon/accounts/**")
-						.filters(f -> f.rewritePath("/brandon/accounts/(?<segment>.*)", "/${segment}"))
+						.filters(f -> f.rewritePath("/brandon/accounts/(?<segment>.*)", "/${segment}")
+								.addResponseHeader("X-Response-Time", LocalDateTime.now().toString()))
 						.uri("lb://ACCOUNTS"))
 				.route(r -> r
 						.path("/brandon/cards/**")
-						.filters(f -> f.rewritePath("/brandon/cards/(?<segment>.*)", "/${segment}"))
+						.filters(f -> f.rewritePath("/brandon/cards/(?<segment>.*)", "/${segment}")
+								.addResponseHeader("X-Response-Time", LocalDateTime.now().toString()))
 						.uri("lb://CARDS"))
 				.route(r -> r
 						.path("/brandon/loans/**")
-						.filters(f -> f.rewritePath("/brandon/loans/(?<segment>.*)", "/${segment}"))
+						.filters(f -> f.rewritePath("/brandon/loans/(?<segment>.*)", "/${segment}")
+								.addResponseHeader("X-Response-Time", LocalDateTime.now().toString()))
 						.uri("lb://LOANS"))
 				.build();
 	}
