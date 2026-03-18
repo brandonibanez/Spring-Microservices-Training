@@ -48,3 +48,9 @@ info:
     name: "accounts"
     description: "Bandon Gandon Accounts Application"
     version: "1.0.0"
+
+logging:
+  level:
+    com:
+      brandon:
+        accounts: DEBUG

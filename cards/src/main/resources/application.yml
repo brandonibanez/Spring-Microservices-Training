@@ -48,3 +48,9 @@ info:
     name: "cards"
     description: "Bandon Gandon Cards Application"
     version: "1.0.0"
+
+logging:
+  level:
+    com:
+      eazybytes:
+        cards: DEBUG
