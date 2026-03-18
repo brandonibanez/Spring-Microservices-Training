@@ -22,7 +22,8 @@ public class Application {
 				.route(r -> r
 						.path("/brandon/accounts/**")
 						.filters(f -> f.rewritePath("/brandon/accounts/(?<segment>.*)", "/${segment}")
-								.addResponseHeader("X-Response-Time", LocalDateTime.now().toString()))
+								.addResponseHeader("X-Response-Time", LocalDateTime.now().toString())
+								.circuitBreaker(config -> config.setName("accountsCircuitBreaker")))
 						.uri("lb://ACCOUNTS"))
 				.route(r -> r
 						.path("/brandon/cards/**")
