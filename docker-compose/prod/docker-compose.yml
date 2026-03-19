@@ -1,6 +1,6 @@
 services:
   accounts:
-    image: "brandonibanez/accounts:s9"
+    image: "brandonibanez/accounts:s10"
     container_name: accounts-ms
     ports:
       - "8080:8080"
@@ -25,7 +25,7 @@ services:
       service: microservice-eureka-config
 
   loans:
-    image: "brandonibanez/loans:s9"
+    image: "brandonibanez/loans:s10"
     container_name: loans-ms
     ports:
       - "8090:8090"
@@ -50,7 +50,7 @@ services:
       service: microservice-eureka-config
 
   cards:
-    image: "brandonibanez/cards:s9"
+    image: "brandonibanez/cards:s10"
     container_name: cards-ms
     ports:
       - "9000:9000"
@@ -111,7 +111,7 @@ services:
       service: microservice-eureka-config
 
   configserver:
-    image: "brandonibanez/configserver:s9"
+    image: "brandonibanez/configserver:s10"
     container_name: configserver-ms
     ports:
       - "8071:8071"
@@ -129,7 +129,7 @@ services:
       service: microservice-base-config
 
   eurekaserver:
-    image: "brandonibanez/eurekaserver:s9"
+    image: "brandonibanez/eurekaserver:s10"
     container_name: eurekaserver-ms
     ports:
       - "8070:8070"
