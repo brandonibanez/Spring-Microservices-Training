@@ -126,6 +126,14 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-openfeign</artifactId>
 		</dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-stream</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-stream-binder-rabbit</artifactId>
+        </dependency>
 	</dependencies>
 
 	<dependencyManagement>
@@ -160,7 +168,7 @@
 				<version>3.5.1</version>
 				<configuration>
 					<to>
-						<image>brandonibanez/${project.artifactId}:s12</image>
+						<image>brandonibanez/${project.artifactId}:s13</image>
 					</to>
 				</configuration>
 			</plugin>
