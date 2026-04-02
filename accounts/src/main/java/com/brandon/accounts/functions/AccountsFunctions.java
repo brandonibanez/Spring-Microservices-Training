@@ -12,7 +12,7 @@ import java.util.function.Consumer;
 public class AccountsFunctions {
 
     private static final Logger log = LoggerFactory.getLogger(AccountsFunctions.class);
-0 
+
     @Bean
     public Consumer<Long> updateCommunication(IAccountsService accountsService) {
         return accountNumber -> {
