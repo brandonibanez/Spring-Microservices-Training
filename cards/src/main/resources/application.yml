@@ -19,8 +19,8 @@ spring:
   rabbitmq:
     host: "localhost"
     port: 5672
-    username: "guest"
-    password: "guest"
+    username: "brandon"
+    password: "brandon"
 
 management:
   endpoints:
@@ -28,9 +28,9 @@ management:
       exposure:
         include: "*"
   health:
-    readiness-state:
+    readinessState:
       enabled: true
-    liveness-state:
+    livenessState:
       enabled: true
   endpoint:
     shutdown:

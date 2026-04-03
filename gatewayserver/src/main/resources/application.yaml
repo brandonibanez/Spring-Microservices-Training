@@ -62,3 +62,10 @@ resilience4j.circuitbreaker:
       permittedNumberOfCallsInHalfOpenState: 2
       failureRateThreshold: 50
       waitDurationInOpenState: 10000
+
+springdoc:
+  swagger-ui:
+    urls:
+      - name: Accounts Service
+        url: /brandon/accounts/v3/api-docs
+    config-url: /brandon/accounts/v3/api-docs/swagger-config

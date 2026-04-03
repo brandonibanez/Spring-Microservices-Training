@@ -1,5 +1,6 @@
 server:
   port: 8080
+  forward-headers-strategy: framework
 spring:
   application:
     name: "accounts"
@@ -19,8 +20,8 @@ spring:
   rabbitmq:
     host: localhost
     port: 5672
-    username: guest
-    password: guest
+    username: brandon
+    password: brandon
     connection-timeout: 10s
   cloud:
     openfeign:
@@ -36,6 +37,13 @@ spring:
         sendCommunication-out-0:
           destination: send-communication
 
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    config-url: /brandon/accounts/v3/api-docs/swagger-config
+    url: /brandon/accounts/v3/api-docs
 
 management:
   endpoints:
@@ -43,9 +51,9 @@ management:
       exposure:
         include: "*"
   health:
-    readiness-state:
+    livenessState:
       enabled: true
-    liveness-state:
+    readinessState:
       enabled: true
   endpoint:
     shutdown:
