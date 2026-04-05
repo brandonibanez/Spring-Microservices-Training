@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: configserver
-        image: brandonibanez/configserver:s13
+        image: eazybytes/configserver:s12
         ports:
         - containerPort: 8071
 ---
