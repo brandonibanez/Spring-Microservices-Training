@@ -48,7 +48,7 @@ metadata:
 spec:
   selector:
     app: accounts
-  type: LoadBalancer
+  type: ClusterIP
   ports:
     - protocol: TCP
       port: 8080

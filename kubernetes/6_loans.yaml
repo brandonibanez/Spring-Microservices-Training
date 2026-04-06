@@ -48,7 +48,7 @@ metadata:
 spec:
   selector:
     app: loans
-  type: LoadBalancer
+  type: ClusterIP
   ports:
     - protocol: TCP
       port: 8090
