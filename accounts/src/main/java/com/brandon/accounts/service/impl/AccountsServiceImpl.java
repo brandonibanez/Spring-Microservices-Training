@@ -7,6 +7,7 @@ import java.util.Random;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cloud.stream.function.StreamBridge;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 
 import com.brandon.accounts.constants.AccountsConstants;
@@ -56,7 +57,8 @@ public class AccountsServiceImpl implements IAccountsService {
         var accountsMsgDto = new AccountsMsgDto(account.getAccountNumber(), customer.getName(),
                 customer.getEmail(), customer.getMobileNumber());
         log.info("Sending Communication request for the details: {}", accountsMsgDto);
-        var result = streamBridge.send("sendCommunication-out-0", accountsMsgDto);
+        var result = streamBridge.send("sendCommunication-out-0", MessageBuilder.withPayload(accountsMsgDto).setHeader("routingKey", "test").build());
+        // var result = streamBridge.send("sendCommunication-out-0", accountsMsgDto);
         log.info("Is the Communication request successfully triggered ? : {}", result);
     }
 

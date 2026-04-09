@@ -14,6 +14,11 @@ spring:
           group: ${spring.application.name}
         emailsms-out-0:
           destination: communication-sent
+      rabbit:
+        bindings:
+          emailsms-in-0:
+            consumer:
+              binding-routing-key: test
   rabbitmq:
     host: localhost
     port: 5672

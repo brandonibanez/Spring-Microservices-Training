@@ -36,6 +36,11 @@ spring:
           group: ${spring.application.name}
         sendCommunication-out-0:
           destination: send-communication
+      rabbit:
+        bindings:
+          sendCommunication-out-0:
+            producer:
+              routing-key-expression: headers['routingKey']
 
 springdoc:
   api-docs:
