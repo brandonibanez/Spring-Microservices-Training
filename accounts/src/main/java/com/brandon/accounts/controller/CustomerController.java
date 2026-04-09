@@ -58,12 +58,11 @@ public class CustomerController {
     }
     )
     @GetMapping("/fetchCustomerDetails")
-    public ResponseEntity<CustomerDetailsDto> fetchCustomerDetails(@RequestHeader("brandon-correlation-id") String correlationId,
-                                                                   @RequestParam
+    public ResponseEntity<CustomerDetailsDto> fetchCustomerDetails(@RequestParam
                                                                    @Pattern(regexp="(^$|[0-9]{10})",message = "Mobile number must be 10 digits")
                                                                    String mobileNumber){
         logger.debug("fetchCustomerDetails method start");
-        CustomerDetailsDto customerDetailsDto = iCustomersService.fetchCustomerDetails(mobileNumber, correlationId);
+        CustomerDetailsDto customerDetailsDto = iCustomersService.fetchCustomerDetails(mobileNumber);
         logger.debug("fetchCustomerDetails method end");
         return ResponseEntity.status(HttpStatus.SC_OK).body(customerDetailsDto);
 
