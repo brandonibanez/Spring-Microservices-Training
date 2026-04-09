@@ -320,9 +320,11 @@ services:
         condition: service_healthy
     environment:
       SPRING_RABBITMQ_HOST: "rabbit"
+      SPRING_APPLICATION_NAME: "message"
+      OTEL_SERVICE_NAME: "message"
     extends:
       file: common-config.yml
-      service: network-deploy-service
+      service: microservice-base-config
 
   redis:
     image: redis
