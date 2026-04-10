@@ -62,9 +62,10 @@ public class AccountsServiceImpl implements IAccountsService {
         // MessageBuilder.withPayload(accountsMsgDto).setHeader("routingKey",
         // "test").build());
         // Kafka
-        var result = streamBridge.send("sendCommunication-out-0",
-                MessageBuilder.withPayload(accountsMsgDto).setHeader("routingKey", "test").build());
-        // var result = streamBridge.send("sendCommunication-out-0", accountsMsgDto);
+        // var result = streamBridge.send("sendCommunication-out-0",
+        // MessageBuilder.withPayload(accountsMsgDto).setHeader("routingKey",
+        // "test").build());
+        var result = streamBridge.send("sendCommunication-out-0", accountsMsgDto);
         log.info("Is the Communication request successfully triggered ? : {}", result);
     }
 

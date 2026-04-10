@@ -27,11 +27,9 @@ spring:
       bindings:
         updateCommunication-in-0:
           destination: communication-sent
-          group: ${spring.application.name}
+          # group: ${spring.application.name}
         sendCommunication-out-0:
           destination: send-communication
-          producer:
-            partition-key-expression: headers['routingKey']
       kafka:
         binder:
           brokers: localhost:9092
