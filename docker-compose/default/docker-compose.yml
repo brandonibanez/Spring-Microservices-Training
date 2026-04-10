@@ -241,7 +241,7 @@ services:
       service: network-deploy-service
 
   accounts:
-    image: "brandonibanez/accounts:s13"
+    image: "brandonibanez/accounts:s14"
     container_name: accounts-ms
     depends_on:
       accountsdb:
@@ -265,7 +265,7 @@ services:
       service: microservice-eureka-config
 
   loans:
-    image: "brandonibanez/loans:s13"
+    image: "brandonibanez/loans:s14"
     container_name: loans-ms
     depends_on:
       accountsdb:
@@ -289,7 +289,7 @@ services:
       service: microservice-eureka-config
 
   cards:
-    image: "brandonibanez/cards:s13"
+    image: "brandonibanez/cards:s14"
     container_name: cards-ms
     depends_on:
       accountsdb:
@@ -313,7 +313,7 @@ services:
       service: microservice-eureka-config
 
   message:
-    image: "brandonibanez/message:s13"
+    image: "brandonibanez/message:s14"
     container_name: message-ms
     depends_on:
       kafka:
@@ -338,7 +338,7 @@ services:
       service: network-deploy-service
 
   gatewayserver:
-    image: "brandonibanez/gatewayserver:s13"
+    image: "brandonibanez/gatewayserver:s14"
     container_name: gatewayserver-ms
     ports:
       - "8072:8072"
@@ -364,7 +364,7 @@ services:
       service: microservice-eureka-config
 
   configserver:
-    image: "brandonibanez/configserver:s13"
+    image: "brandonibanez/configserver:s14"
     container_name: configserver-ms
     ports:
       - "8071:8071"
@@ -384,7 +384,7 @@ services:
       OTEL_SERVICE_NAME: "configserver"
 
   eurekaserver:
-    image: "brandonibanez/eurekaserver:s13"
+    image: "brandonibanez/eurekaserver:s14"
     container_name: eurekaserver-ms
     ports:
       - "8070:8070"

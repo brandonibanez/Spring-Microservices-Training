@@ -81,7 +81,7 @@
 				<version>3.5.1</version>
 				<configuration>
 					<to>
-						<image>brandonibanez/${project.artifactId}:s13</image>
+						<image>brandonibanez/${project.artifactId}:s14</image>
 					</to>
 				</configuration>
 			</plugin>
