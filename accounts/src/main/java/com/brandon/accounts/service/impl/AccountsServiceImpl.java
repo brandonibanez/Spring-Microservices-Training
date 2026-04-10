@@ -31,7 +31,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class AccountsServiceImpl implements IAccountsService {
 
-    private static final Logger log = LoggerFactory.getLogger(AccountsServiceImpl.class);    
+    private static final Logger log = LoggerFactory.getLogger(AccountsServiceImpl.class);
 
     private AccountsRepository accountsRepository;
     private CustomerRepository customerRepository;
@@ -57,7 +57,13 @@ public class AccountsServiceImpl implements IAccountsService {
         var accountsMsgDto = new AccountsMsgDto(account.getAccountNumber(), customer.getName(),
                 customer.getEmail(), customer.getMobileNumber());
         log.info("Sending Communication request for the details: {}", accountsMsgDto);
-        var result = streamBridge.send("sendCommunication-out-0", MessageBuilder.withPayload(accountsMsgDto).setHeader("routingKey", "test").build());
+        // RabbitMQ
+        // var result = streamBridge.send("sendCommunication-out-0",
+        // MessageBuilder.withPayload(accountsMsgDto).setHeader("routingKey",
+        // "test").build());
+        // Kafka
+        var result = streamBridge.send("sendCommunication-out-0",
+                MessageBuilder.withPayload(accountsMsgDto).setHeader("routingKey", "test").build());
         // var result = streamBridge.send("sendCommunication-out-0", accountsMsgDto);
         log.info("Is the Communication request successfully triggered ? : {}", result);
     }
@@ -135,19 +141,19 @@ public class AccountsServiceImpl implements IAccountsService {
 
     /**
      * @param accountNumber - Long
-     * @return boolean indicating if the update of communication status is successful or not
+     * @return boolean indicating if the update of communication status is
+     *         successful or not
      */
     @Override
     public boolean updateCommunicationStatus(Long accountNumber) {
         boolean isUpdated = false;
-        if(accountNumber !=null ){
+        if (accountNumber != null) {
             Accounts accounts = accountsRepository.findById(accountNumber).orElseThrow(
-                    () -> new ResourceNotFoundException("Account", "AccountNumber", accountNumber.toString())
-            );
+                    () -> new ResourceNotFoundException("Account", "AccountNumber", accountNumber.toString()));
             accounts.setCommunicationSw(true);
             accountsRepository.save(accounts);
             isUpdated = true;
         }
-        return  isUpdated;
+        return isUpdated;
     }
 }
