@@ -1,0 +1,27 @@
+dependencies:
+- name: brandonbank-common
+  repository: file://../../brandonbank-common
+  version: 0.1.0
+- name: configserver
+  repository: file://../../brandonbank-services/configserver
+  version: 0.1.0
+- name: eurekaserver
+  repository: file://../../brandonbank-services/eurekaserver
+  version: 0.1.0
+- name: accounts
+  repository: file://../../brandonbank-services/accounts
+  version: 0.1.0
+- name: cards
+  repository: file://../../brandonbank-services/cards
+  version: 0.1.0
+- name: loans
+  repository: file://../../brandonbank-services/loans
+  version: 0.1.0
+- name: gatewayserver
+  repository: file://../../brandonbank-services/gatewayserver
+  version: 0.1.0
+- name: message
+  repository: file://../../brandonbank-services/message
+  version: 0.1.0
+digest: sha256:d939374c9c41d6fbcd608451c284b675d2cb975b75834c0684e2bc608a2f9e9a
+generated: "2026-04-11T18:03:32.0710025+08:00"
