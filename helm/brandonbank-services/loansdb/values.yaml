@@ -1,0 +1,53 @@
+# Metadata
+deploymentName: loansdb-deploy
+serviceName: loansdb
+appLabel: loansdb
+appName: loansdb
+replicaCount: 1
+
+# Image
+image:
+  repository: mysql
+  tag: "8.0" # or latest
+
+# Disable Spring ConfigMap logic to avoid CreateContainerConfigError
+appname_enabled: false
+profile_enabled: false
+config_enabled: false
+eureka_enabled: false
+resouceserver_enabled: false
+otel_enabled: false
+kafka_enabled: false
+
+# DB ENV VARS
+extra_vars_enabled: true
+extra_vars:
+  MYSQL_DATABASE: "loansdb"
+  MYSQL_ROOT_PASSWORD: "root"
+
+# 🚨 FIXED HEALTHCHECK (IMPORTANT CHANGE)
+healthcheck:
+  enabled: true
+
+  # Give MySQL more time to initialize socket
+  initialDelaySeconds: 20
+  periodSeconds: 10
+
+  # More stable than mysqladmin during startup
+  command:
+    - /bin/mysqladmin
+    - ping
+    - -h
+    - 127.0.0.1
+    - -uroot
+    - -proot
+
+# Ports
+containerPort: 3306
+service:
+  type: ClusterIP
+  port: 3306
+  targetPort: 3306
+  
+global:
+  configMapName: global-config # This won't be used since we disabled the flags
