@@ -33,6 +33,23 @@ spec:
               name: {{ .Values.global.configMapName }}
               key: SPRING_PROFILES_ACTIVE
         {{- end }}
+
+        {{- if .Values.database }}
+        - name: SPRING_DATASOURCE_URL
+          value: "jdbc:mysql://{{ .Values.database.host }}:{{ .Values.database.port }}/{{ .Values.database.name }}"
+        - name: SPRING_DATASOURCE_USERNAME
+          value: {{ .Values.database.user | quote }}
+        - name: SPRING_DATASOURCE_PASSWORD
+          value: {{ .Values.database.password | quote }}
+        {{- end }}
+
+        {{- if .Values.extra_vars_enabled }}
+        {{- range $key, $val := .Values.extra_vars }}
+        - name: {{ $key }}
+          value: {{ $val | quote }}
+        {{- end }}
+        {{- end }}
+
         {{- if .Values.config_enabled }}
         - name: SPRING_CONFIG_IMPORT
           valueFrom: 
