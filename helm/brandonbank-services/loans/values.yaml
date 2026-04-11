@@ -19,6 +19,21 @@ service:
   port: 8090
   targetPort: 8090
 
+database:
+  host: "loansdb" # This MUST match the 'metadata.name' of your DB Service
+  port: "3306"
+  name: "loansdb"
+  user: "root"
+  password: "root"
+
+healthcheck:
+  enabled: true
+  initialDelay: 60
+  command:
+    - /bin/sh
+    - -c
+    - "mysqladmin ping -h localhost -u root --password=$MYSQL_ROOT_PASSWORD"
+
 appname_enabled: true
 profile_enabled: true
 config_enabled: true

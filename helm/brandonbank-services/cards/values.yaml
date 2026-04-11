@@ -19,6 +19,21 @@ service:
   port: 9000
   targetPort: 9000
 
+database:
+  host: "cardsdb" # This MUST match the 'metadata.name' of your DB Service
+  port: "3306"
+  name: "cardsdb"
+  user: "root"
+  password: "root"
+
+healthcheck:
+  enabled: true
+  initialDelay: 60
+  command:
+    - /bin/sh
+    - -c
+    - "mysqladmin ping -h localhost -u root --password=$MYSQL_ROOT_PASSWORD"
+
 appname_enabled: true
 profile_enabled: true
 config_enabled: true
