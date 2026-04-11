@@ -1,15 +1,15 @@
+{{- define "common.service" -}}
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "brandonbank-common.fullname" . }}
-  labels:
-    {{- include "brandonbank-common.labels" . | nindent 4 }}
+  name: {{ .Values.serviceName }}
 spec:
+  selector:
+    app: {{ .Values.appLabel }}
   type: {{ .Values.service.type }}
   ports:
-    - port: {{ .Values.service.port }}
-      targetPort: http
+    - name: http
       protocol: TCP
-      name: http
-  selector:
-    {{- include "brandonbank-common.selectorLabels" . | nindent 4 }}
+      port: {{ .Values.service.port }}
+      targetPort: {{ .Values.service.targetPort }}
+{{- end -}}
