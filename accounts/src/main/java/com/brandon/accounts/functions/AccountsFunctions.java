@@ -3,13 +3,12 @@ package com.brandon.accounts.functions;
 import com.brandon.accounts.service.IAccountsService;
 
 import org.apache.kafka.streams.kstream.KStream;
+import org.apache.kafka.streams.kstream.Materialized;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
 import java.util.function.Consumer;
-import java.util.function.Function;
 
 @Configuration
 public class AccountsFunctions {
@@ -28,9 +27,16 @@ public class AccountsFunctions {
     @Bean
     public Consumer<KStream<String, String>> analytics(IAccountsService accountsService) {
         return input -> {
-            input.foreach((key, accountNumber) -> {
-                log.info("Kafka Streams: Processing account + 1: " + (Integer.parseInt(accountNumber) + 1));
-            });
+            input
+                    // 1. Group by the value (accountNumber)
+                    .groupBy((key, accountNumber) -> accountNumber)
+                    // 2. Count occurrences (this creates a KTable, which is stateful)
+                    .count(Materialized.as("account-counts-store"))
+                    // 3. Convert back to stream to log the results
+                    .toStream()
+                    .foreach((accountNumber, count) -> {
+                        log.info("Account " + accountNumber + " has been seen " + count + " times.");
+                    });
         };
     }
 

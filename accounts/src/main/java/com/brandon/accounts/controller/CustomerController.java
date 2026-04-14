@@ -10,9 +10,12 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Pattern;
+import lombok.AllArgsConstructor;
+
 import org.apache.http.HttpStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -29,15 +32,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(path="/api", produces = {MediaType.APPLICATION_JSON_VALUE})
 @Validated
+@AllArgsConstructor
 public class CustomerController {
 
     private static final Logger logger = LoggerFactory.getLogger(CustomerController.class);
 
     private final ICustomersService iCustomersService;
 
-    public CustomerController(ICustomersService iCustomersService){
-        this.iCustomersService = iCustomersService;
-    }
+    private final StreamBridge streamBridge;
+
+//     public CustomerController(ICustomersService iCustomersService){
+//         this.iCustomersService = iCustomersService;
+//     }
 
     @Operation(
             summary = "Fetch Customer Details REST API",
@@ -63,6 +69,7 @@ public class CustomerController {
                                                                    String mobileNumber){
         logger.debug("fetchCustomerDetails method start");
         CustomerDetailsDto customerDetailsDto = iCustomersService.fetchCustomerDetails(mobileNumber);
+        var result = streamBridge.send("analytics-out-0", customerDetailsDto.getAccountsDto().getAccountNumber());
         logger.debug("fetchCustomerDetails method end");
         return ResponseEntity.status(HttpStatus.SC_OK).body(customerDetailsDto);
 

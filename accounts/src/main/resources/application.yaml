@@ -29,8 +29,10 @@ spring:
           destination: communication-sent
           # group: ${spring.application.name}
         analytics-in-0:
-          destination: communication-sent
+          destination: communication-sent-analytics
           group: analytics-group
+        analytics-out-0:
+          destination: communication-sent-analytics
         sendCommunication-out-0:
           destination: send-communication
       kafka:
