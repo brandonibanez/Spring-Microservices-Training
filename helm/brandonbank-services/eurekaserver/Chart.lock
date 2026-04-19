@@ -1,6 +1,0 @@
-dependencies:
-- name: brandonbank-common
-  repository: file://../../brandonbank-common
-  version: 0.1.0
-digest: sha256:f9217a3053946c47385bd529c57ef859fb202464c2591609ba2feb9098acb927
-generated: "2026-04-12T00:36:57.2955182+08:00"
