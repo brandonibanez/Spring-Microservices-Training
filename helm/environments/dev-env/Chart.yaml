@@ -39,14 +39,26 @@ dependencies:
   - name: accounts
     version: 0.1.0
     repository: file://../../brandonbank-services/accounts
+
+  - name: accountsdb
+    version: 0.1.0
+    repository: file://../../brandonbank-services/accountsdb
     
   - name: cards
     version: 0.1.0
     repository: file://../../brandonbank-services/cards
+
+  - name: cardsdb
+    version: 0.1.0
+    repository: file://../../brandonbank-services/cardsdb
     
   - name: loans
     version: 0.1.0
     repository: file://../../brandonbank-services/loans
+
+  - name: loansdb
+    version: 0.1.0
+    repository: file://../../brandonbank-services/loansdb
 
   - name: gatewayserver
     version: 0.1.0

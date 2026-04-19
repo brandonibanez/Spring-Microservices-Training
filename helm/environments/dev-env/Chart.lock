@@ -11,11 +11,20 @@ dependencies:
 - name: accounts
   repository: file://../../brandonbank-services/accounts
   version: 0.1.0
+- name: accountsdb
+  repository: file://../../brandonbank-services/accountsdb
+  version: 0.1.0
 - name: cards
   repository: file://../../brandonbank-services/cards
   version: 0.1.0
+- name: cardsdb
+  repository: file://../../brandonbank-services/cardsdb
+  version: 0.1.0
 - name: loans
   repository: file://../../brandonbank-services/loans
+  version: 0.1.0
+- name: loansdb
+  repository: file://../../brandonbank-services/loansdb
   version: 0.1.0
 - name: gatewayserver
   repository: file://../../brandonbank-services/gatewayserver
@@ -23,5 +32,5 @@ dependencies:
 - name: message
   repository: file://../../brandonbank-services/message
   version: 0.1.0
-digest: sha256:d939374c9c41d6fbcd608451c284b675d2cb975b75834c0684e2bc608a2f9e9a
-generated: "2026-04-11T18:03:32.0710025+08:00"
+digest: sha256:d1d37f3ea4a14751ea32f99d9fa892446ffebd6400aac859c05e1a2aa2145e94
+generated: "2026-04-19T20:51:49.4045319+08:00"
