@@ -67,3 +67,31 @@ dependencies:
   - name: message
     version: 0.1.0
     repository: file://../../brandonbank-services/message
+
+  - name: grafana
+    version: 1.0.0
+    repository: file://../../grafana
+    
+  - name: grafana-alloy
+    version: 1.0.0
+    repository: file://../../grafana-alloy
+
+  - name: grafana-loki
+    version: 1.0.0
+    repository: file://../../grafana-loki
+
+  - name: grafana-tempo
+    version: 1.0.0
+    repository: file://../../grafana-tempo
+
+  - name: kafka
+    version: 1.0.0
+    repository: file://../../kafka
+
+  - name: keycloak
+    version: 1.0.0
+    repository: file://../../keycloak
+
+  - name: kube-prometheus
+    version: 1.0.0
+    repository: file://../../kube-prometheus

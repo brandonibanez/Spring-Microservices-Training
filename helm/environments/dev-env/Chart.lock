@@ -32,5 +32,26 @@ dependencies:
 - name: message
   repository: file://../../brandonbank-services/message
   version: 0.1.0
-digest: sha256:d1d37f3ea4a14751ea32f99d9fa892446ffebd6400aac859c05e1a2aa2145e94
-generated: "2026-04-19T20:51:49.4045319+08:00"
+- name: grafana
+  repository: file://../../grafana
+  version: 1.0.0
+- name: grafana-alloy
+  repository: file://../../grafana-alloy
+  version: 1.0.0
+- name: grafana-loki
+  repository: file://../../grafana-loki
+  version: 1.0.0
+- name: grafana-tempo
+  repository: file://../../grafana-tempo
+  version: 1.0.0
+- name: kafka
+  repository: file://../../kafka
+  version: 1.0.0
+- name: keycloak
+  repository: file://../../keycloak
+  version: 1.0.0
+- name: kube-prometheus
+  repository: file://../../kube-prometheus
+  version: 1.0.0
+digest: sha256:05b375fe9f4297b7a403ec0c05be68b495c94ebc53eea00a2718b08809bd1bdc
+generated: "2026-04-20T01:06:46.2333317+08:00"
