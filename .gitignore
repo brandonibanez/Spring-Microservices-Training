@@ -34,3 +34,7 @@ build/
 
 ### Minio ###
 .data
+
+### Helm ###
+*.lock
+*.tgz
