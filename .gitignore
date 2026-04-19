@@ -38,3 +38,4 @@ build/
 ### Helm ###
 *.lock
 *.tgz
+*.rar

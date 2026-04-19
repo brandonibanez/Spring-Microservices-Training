@@ -60,13 +60,13 @@ dependencies:
     version: 0.1.0
     repository: file://../../brandonbank-services/loansdb
 
-  # - name: gatewayserver
-  #   version: 0.1.0
-  #   repository: file://../../brandonbank-services/gatewayserver
+  - name: gatewayserver
+    version: 0.1.0
+    repository: file://../../brandonbank-services/gatewayserver
 
-  # - name: message
-  #   version: 0.1.0
-  #   repository: file://../../brandonbank-services/message
+  - name: message
+    version: 0.1.0
+    repository: file://../../brandonbank-services/message
 
   # - name: grafana
   #   version: 1.0.0

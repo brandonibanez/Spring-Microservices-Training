@@ -40,4 +40,4 @@ config_enabled: true
 eureka_enabled: true
 resouceserver_enabled: false
 otel_enabled: true
-kafka_enabled: false
+kafka_enabled: true
