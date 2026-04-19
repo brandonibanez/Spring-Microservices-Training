@@ -25,6 +25,15 @@ public class AccountsFunctions {
     }
 
     @Bean
+    public Consumer<KStream<String, String>> analytics2() {
+        return input -> {
+            input.foreach((key, accountNumber) -> {
+                log.info("Kafka Streams: Processing account: " + accountNumber);
+            });
+        };
+    }
+
+    @Bean
     public Consumer<KStream<String, String>> analytics(IAccountsService accountsService) {
         return input -> {
             input

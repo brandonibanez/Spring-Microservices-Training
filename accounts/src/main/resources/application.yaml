@@ -22,23 +22,25 @@ spring:
       circuitbreaker:
         enabled: true
     function:
-      definition: updateCommunication;analytics
+      definition: updateCommunication;analytics;analytics2
     stream:
       bindings:
         updateCommunication-in-0:
           destination: communication-sent
-          # group: ${spring.application.name}
+          group: update-communication-group
         analytics-in-0:
           destination: communication-sent-analytics
-          group: analytics-group
         analytics-out-0:
           destination: communication-sent-analytics
+        analytics2-in-0:
+          destination: communication-sent
         sendCommunication-out-0:
           destination: send-communication
+
       kafka:
         binder:
           brokers: localhost:9092
-          # auto-create-topics: true
+          auto-create-topics: true
         streams:
           binder:
             brokers: localhost:9092
@@ -47,6 +49,12 @@ spring:
               default.key.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
               default.value.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
               default.auto.offset.reset: earliest
+              # application.id: ${spring.application.name}-${spring.cloud.stream.function.definition}
+          bindings:
+            analytics: 
+              application-id: my-stable-analytics-id
+            analytics2:
+              application-id: my-stable-analytics2-id
 
 springdoc:
   api-docs:
