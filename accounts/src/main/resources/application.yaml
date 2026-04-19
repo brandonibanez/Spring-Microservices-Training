@@ -36,7 +36,6 @@ spring:
           destination: communication-sent
         sendCommunication-out-0:
           destination: send-communication
-
       kafka:
         binder:
           brokers: localhost:9092
@@ -44,17 +43,15 @@ spring:
         streams:
           binder:
             brokers: localhost:9092
-            application-id: accounts-analytics-app
             configuration:
               default.key.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
               default.value.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
               default.auto.offset.reset: earliest
-              # application.id: ${spring.application.name}-${spring.cloud.stream.function.definition}
-          bindings:
-            analytics: 
-              application-id: my-stable-analytics-id
-            analytics2:
-              application-id: my-stable-analytics2-id
+            functions:
+              analytics:
+                applicationId: my-analytics1-id
+              analytics2:
+                applicationId: my-analytics2-id
 
 springdoc:
   api-docs:
