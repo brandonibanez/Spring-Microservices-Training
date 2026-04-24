@@ -42,12 +42,28 @@ class AccountsServiceImplTest {
 
     private CustomerDto customerDto;
 
+    private Customer customer;
+
+    private Accounts account;
+
     @BeforeEach
     void setUp() {
         customerDto = new CustomerDto();
         customerDto.setName("John Doe");
         customerDto.setEmail("john.doe@example.com");
         customerDto.setMobileNumber("9876543210");
+
+        customer = new Customer();
+        customer.setCustomerId(1L);
+        customer.setName("John Doe");
+        customer.setEmail("john.doe@example.com");
+        customer.setMobileNumber("9876543210");
+
+        account = new Accounts();
+        account.setAccountNumber(1234567890L);
+        account.setCustomerId(1L);
+        account.setAccountType("SAVINGS");
+        account.setBranchAddress("123 Main St");
     }
 
     @Nested
@@ -59,23 +75,11 @@ class AccountsServiceImplTest {
             when(customerRepository.findByMobileNumber("9876543210"))
                     .thenReturn(Optional.empty());
 
-            Customer fetchedCustomer = new Customer();
-            fetchedCustomer.setCustomerId(1L);
-            fetchedCustomer.setName("John Doe");
-            fetchedCustomer.setEmail("john.doe@example.com");
-            fetchedCustomer.setMobileNumber("9876543210");
-
             when(customerRepository.save(any(Customer.class)))
-                    .thenReturn(fetchedCustomer);
-
-            Accounts fetchedAccount = new Accounts();
-            fetchedAccount.setAccountNumber(1234567890L);
-            fetchedAccount.setCustomerId(1L);
-            fetchedAccount.setAccountType("SAVINGS");
-            fetchedAccount.setBranchAddress("123 Main St");
+                    .thenReturn(customer);
 
             when(accountsRepository.save(any(Accounts.class)))
-                    .thenReturn(fetchedAccount);
+                    .thenReturn(account);
 
             when(streamBridge.send(eq("sendCommunication-out-0"), any(AccountsMsgDto.class)))
                     .thenReturn(true);
@@ -126,25 +130,11 @@ class AccountsServiceImplTest {
     @Test
     void testFetchAccountSuccessfully() {
         //Given
-
-        Customer fetchedCustomer = new Customer();
-        fetchedCustomer.setCustomerId(1L);
-        fetchedCustomer.setName("John Doe");
-        fetchedCustomer.setEmail("john.doe@example.com");
-        fetchedCustomer.setMobileNumber("9876543210");
-
         when(customerRepository.findByMobileNumber("9876543210"))
-        .thenReturn(Optional.of(fetchedCustomer));
-
-        Accounts fetchedAccount = new Accounts();
-        fetchedAccount.setAccountNumber(1234567890L);
-        fetchedAccount.setCustomerId(1L);
-        fetchedAccount.setAccountType("SAVINGS");
-        fetchedAccount.setBranchAddress("123 Main St");
+        .thenReturn(Optional.of(customer));
 
         when(accountsRepository.findByCustomerId(1L))
-        .thenReturn(Optional.of(fetchedAccount));
-        
+        .thenReturn(Optional.of(account));  
         //When
 
         CustomerDto result = accountsService.fetchAccount("9876543210");
