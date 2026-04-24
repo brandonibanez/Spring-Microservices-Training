@@ -1,5 +1,6 @@
 package com.brandon.accounts.service.impl;
 
+import com.brandon.accounts.dto.AccountsDto;
 import com.brandon.accounts.dto.AccountsMsgDto;
 import com.brandon.accounts.dto.CustomerDto;
 import com.brandon.accounts.entity.Accounts;
@@ -114,5 +115,47 @@ class AccountsServiceImplTest {
         verify(customerRepository, never()).save(any());
         verify(accountsRepository, never()).save(any());
         verify(streamBridge, never()).send(anyString(), any());
+    }
+
+    @Test
+    void testFetchAccountSuccessfully() {
+        //Given
+
+        Customer fetchedCustomer = new Customer();
+        fetchedCustomer.setCustomerId(1L);
+        fetchedCustomer.setName("John Doe");
+        fetchedCustomer.setEmail("john.doe@example.com");
+        fetchedCustomer.setMobileNumber("9876543210");
+
+        when(customerRepository.findByMobileNumber("9876543210"))
+        .thenReturn(Optional.of(fetchedCustomer));
+
+        Accounts fetchedAccount = new Accounts();
+        fetchedAccount.setAccountNumber(1234567890L);
+        fetchedAccount.setCustomerId(1L);
+        fetchedAccount.setAccountType("SAVINGS");
+        fetchedAccount.setBranchAddress("123 Main St");
+
+        when(accountsRepository.findByCustomerId(1L))
+        .thenReturn(Optional.of(fetchedAccount));
+        
+        //When
+
+        CustomerDto result = accountsService.fetchAccount("9876543210");
+
+        //Then
+        assertNotNull(result);
+        assertEquals("John Doe", result.getName());
+        assertEquals("john.doe@example.com", result.getEmail());
+        assertEquals("9876543210", result.getMobileNumber());
+
+        AccountsDto accountsDto = result.getAccountsDto();
+        assertNotNull(accountsDto);
+        assertEquals(1234567890L, accountsDto.getAccountNumber());
+        assertEquals("SAVINGS", accountsDto.getAccountType());
+        assertEquals("123 Main St", accountsDto.getBranchAddress());
+
+        verify(customerRepository).findByMobileNumber("9876543210");
+        verify(accountsRepository).findByCustomerId(1L);
     }
 }
