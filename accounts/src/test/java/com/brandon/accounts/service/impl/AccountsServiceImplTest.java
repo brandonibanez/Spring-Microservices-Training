@@ -9,6 +9,8 @@ import com.brandon.accounts.exception.CustomerAlreadyExistsException;
 import com.brandon.accounts.repository.AccountsRepository;
 import com.brandon.accounts.repository.CustomerRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -48,73 +50,77 @@ class AccountsServiceImplTest {
         customerDto.setMobileNumber("9876543210");
     }
 
-    @Test
-    void testCreateAccountSuccessfully() {
-        // Given
-        when(customerRepository.findByMobileNumber("9876543210"))
-                .thenReturn(Optional.empty());
+    @Nested
+    @DisplayName("Create Account Tests")
+    class CreateAccountTests {
+        @Test
+        void testCreateAccountSuccessfully() {
+            // Given
+            when(customerRepository.findByMobileNumber("9876543210"))
+                    .thenReturn(Optional.empty());
 
-        Customer fetchedCustomer = new Customer();
-        fetchedCustomer.setCustomerId(1L);
-        fetchedCustomer.setName("John Doe");
-        fetchedCustomer.setEmail("john.doe@example.com");
-        fetchedCustomer.setMobileNumber("9876543210");
+            Customer fetchedCustomer = new Customer();
+            fetchedCustomer.setCustomerId(1L);
+            fetchedCustomer.setName("John Doe");
+            fetchedCustomer.setEmail("john.doe@example.com");
+            fetchedCustomer.setMobileNumber("9876543210");
 
-        when(customerRepository.save(any(Customer.class)))
-                .thenReturn(fetchedCustomer);
+            when(customerRepository.save(any(Customer.class)))
+                    .thenReturn(fetchedCustomer);
 
-        Accounts fetchedAccount = new Accounts();
-        fetchedAccount.setAccountNumber(1234567890L);
-        fetchedAccount.setCustomerId(1L);
-        fetchedAccount.setAccountType("SAVINGS");
-        fetchedAccount.setBranchAddress("123 Main St");
+            Accounts fetchedAccount = new Accounts();
+            fetchedAccount.setAccountNumber(1234567890L);
+            fetchedAccount.setCustomerId(1L);
+            fetchedAccount.setAccountType("SAVINGS");
+            fetchedAccount.setBranchAddress("123 Main St");
 
-        when(accountsRepository.save(any(Accounts.class)))
-                .thenReturn(fetchedAccount);
+            when(accountsRepository.save(any(Accounts.class)))
+                    .thenReturn(fetchedAccount);
 
-        when(streamBridge.send(eq("sendCommunication-out-0"), any(AccountsMsgDto.class)))
-                .thenReturn(true);
+            when(streamBridge.send(eq("sendCommunication-out-0"), any(AccountsMsgDto.class)))
+                    .thenReturn(true);
 
-        // When
-        accountsService.createAccount(customerDto);
+            // When
+            accountsService.createAccount(customerDto);
 
-        // Then
-        verify(customerRepository).findByMobileNumber("9876543210");
-        verify(customerRepository).save(any(Customer.class));
-        verify(accountsRepository).save(any(Accounts.class));
+            // Then
+            verify(customerRepository).findByMobileNumber("9876543210");
+            verify(customerRepository).save(any(Customer.class));
+            verify(accountsRepository).save(any(Accounts.class));
 
-        ArgumentCaptor<AccountsMsgDto> captor = ArgumentCaptor.forClass(AccountsMsgDto.class);
-        verify(streamBridge).send(eq("sendCommunication-out-0"), captor.capture());
+            ArgumentCaptor<AccountsMsgDto> captor = ArgumentCaptor.forClass(AccountsMsgDto.class);
+            verify(streamBridge).send(eq("sendCommunication-out-0"), captor.capture());
 
-        AccountsMsgDto sentMessage = captor.getValue();
-        assertEquals("John Doe", sentMessage.name());
-        assertEquals("john.doe@example.com", sentMessage.email());
-        assertEquals("9876543210", sentMessage.mobileNumber());
-        assertEquals(1234567890L, sentMessage.accountNumber());
-    }
+            AccountsMsgDto sentMessage = captor.getValue();
+            assertEquals("John Doe", sentMessage.name());
+            assertEquals("john.doe@example.com", sentMessage.email());
+            assertEquals("9876543210", sentMessage.mobileNumber());
+            assertEquals(1234567890L, sentMessage.accountNumber());
+        }
 
-    @Test
-    void testCreateAccountThrowsExceptionWhenCustomerAlreadyExists() {
-        // Given
-        Customer existingCustomer = new Customer();
-        existingCustomer.setCustomerId(1L);
-        existingCustomer.setMobileNumber("9876543210");
+        @Test
+        void testCreateAccountThrowsExceptionWhenCustomerAlreadyExists() {
+            // Given
+            Customer existingCustomer = new Customer();
+            existingCustomer.setCustomerId(1L);
+            existingCustomer.setMobileNumber("9876543210");
 
-        when(customerRepository.findByMobileNumber("9876543210"))
-                .thenReturn(Optional.of(existingCustomer));
+            when(customerRepository.findByMobileNumber("9876543210"))
+                    .thenReturn(Optional.of(existingCustomer));
 
-        // When & Then
-        CustomerAlreadyExistsException exception = assertThrows(
-                CustomerAlreadyExistsException.class,
-                () -> accountsService.createAccount(customerDto)
-        );
+            // When & Then
+            CustomerAlreadyExistsException exception = assertThrows(
+                    CustomerAlreadyExistsException.class,
+                    () -> accountsService.createAccount(customerDto)
+            );
 
-        assertTrue(exception.getMessage().contains("Customer already registered"));
-        assertTrue(exception.getMessage().contains("9876543210"));
+            assertTrue(exception.getMessage().contains("Customer already registered"));
+            assertTrue(exception.getMessage().contains("9876543210"));
 
-        verify(customerRepository, never()).save(any());
-        verify(accountsRepository, never()).save(any());
-        verify(streamBridge, never()).send(anyString(), any());
+            verify(customerRepository, never()).save(any());
+            verify(accountsRepository, never()).save(any());
+            verify(streamBridge, never()).send(anyString(), any());
+        }
     }
 
     @Test
