@@ -127,31 +127,35 @@ class AccountsServiceImplTest {
         }
     }
 
-    @Test
-    void testFetchAccountSuccessfully() {
-        //Given
-        when(customerRepository.findByMobileNumber("9876543210"))
-        .thenReturn(Optional.of(customer));
+    @Nested
+    @DisplayName("Fetch Account Tests")
+    class FetchAccountTests {
+        @Test
+        void testFetchAccountSuccessfully() {
+            //Given
+            when(customerRepository.findByMobileNumber("9876543210"))
+                    .thenReturn(Optional.of(customer));
 
-        when(accountsRepository.findByCustomerId(1L))
-        .thenReturn(Optional.of(account));  
-        //When
+            when(accountsRepository.findByCustomerId(1L))
+                    .thenReturn(Optional.of(account));
+            //When
 
-        CustomerDto result = accountsService.fetchAccount("9876543210");
+            CustomerDto result = accountsService.fetchAccount("9876543210");
 
-        //Then
-        assertNotNull(result);
-        assertEquals("John Doe", result.getName());
-        assertEquals("john.doe@example.com", result.getEmail());
-        assertEquals("9876543210", result.getMobileNumber());
+            //Then
+            assertNotNull(result);
+            assertEquals("John Doe", result.getName());
+            assertEquals("john.doe@example.com", result.getEmail());
+            assertEquals("9876543210", result.getMobileNumber());
 
-        AccountsDto accountsDto = result.getAccountsDto();
-        assertNotNull(accountsDto);
-        assertEquals(1234567890L, accountsDto.getAccountNumber());
-        assertEquals("SAVINGS", accountsDto.getAccountType());
-        assertEquals("123 Main St", accountsDto.getBranchAddress());
+            AccountsDto accountsDto = result.getAccountsDto();
+            assertNotNull(accountsDto);
+            assertEquals(1234567890L, accountsDto.getAccountNumber());
+            assertEquals("SAVINGS", accountsDto.getAccountType());
+            assertEquals("123 Main St", accountsDto.getBranchAddress());
 
-        verify(customerRepository).findByMobileNumber("9876543210");
-        verify(accountsRepository).findByCustomerId(1L);
+            verify(customerRepository).findByMobileNumber("9876543210");
+            verify(accountsRepository).findByCustomerId(1L);
+        }
     }
 }
