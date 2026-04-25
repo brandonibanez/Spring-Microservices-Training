@@ -9,6 +9,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.support.TransactionSynchronization;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 import com.brandon.accounts.constants.AccountsConstants;
 import com.brandon.accounts.dto.AccountsDto;
@@ -41,6 +43,7 @@ public class AccountsServiceImpl implements IAccountsService {
      * @param customerDto - CustomerDto Object
      */
     @Override
+    @Transactional
     public void createAccount(CustomerDto customerDto) {
         Customer customer = CustomerMapper.mapToCustomer(customerDto, new Customer());
         Optional<Customer> optionalCustomer = customerRepository.findByMobileNumber(customerDto.getMobileNumber());
@@ -50,7 +53,13 @@ public class AccountsServiceImpl implements IAccountsService {
         }
         Customer savedCustomer = customerRepository.save(customer);
         Accounts savedAccount = accountsRepository.save(createNewAccount(savedCustomer));
-        sendCommunication(savedAccount, savedCustomer);
+
+        TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization() {
+            @Override
+            public void afterCommit() {
+                sendCommunication(savedAccount, savedCustomer);
+            }
+        });
     }
 
     private void sendCommunication(Accounts account, Customer customer) {
