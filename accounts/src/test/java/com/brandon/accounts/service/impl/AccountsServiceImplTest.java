@@ -6,6 +6,7 @@ import com.brandon.accounts.dto.CustomerDto;
 import com.brandon.accounts.entity.Accounts;
 import com.brandon.accounts.entity.Customer;
 import com.brandon.accounts.exception.CustomerAlreadyExistsException;
+import com.brandon.accounts.exception.ResourceNotFoundException;
 import com.brandon.accounts.repository.AccountsRepository;
 import com.brandon.accounts.repository.CustomerRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -153,6 +154,47 @@ class AccountsServiceImplTest {
             assertEquals(1234567890L, accountsDto.getAccountNumber());
             assertEquals("SAVINGS", accountsDto.getAccountType());
             assertEquals("123 Main St", accountsDto.getBranchAddress());
+
+            verify(customerRepository).findByMobileNumber("9876543210");
+            verify(accountsRepository).findByCustomerId(1L);
+        }
+
+        @Test
+        void testFetchAccountThrowsExceptionWhenCustomerNotFound() {
+            //Given
+            when(customerRepository.findByMobileNumber("9876543210"))
+                    .thenReturn(Optional.empty());
+
+            //When & Then
+            ResourceNotFoundException exception = assertThrows(
+                    ResourceNotFoundException.class,
+                    () -> accountsService.fetchAccount("9876543210")
+            );
+
+            assertTrue(exception.getMessage().contains("Customer"));
+            assertTrue(exception.getMessage().contains("9876543210"));
+
+            verify(customerRepository).findByMobileNumber("9876543210");
+            verify(accountsRepository, never()).findByCustomerId(anyLong());
+        }
+
+        @Test
+        void testFetchAccountThrowsExceptionWhenAccountNotFound() {
+            //Given
+            when(customerRepository.findByMobileNumber("9876543210"))
+                    .thenReturn(Optional.of(customer));
+
+            when(accountsRepository.findByCustomerId(1L))
+                    .thenReturn(Optional.empty());
+
+            //When & Then
+            ResourceNotFoundException exception = assertThrows(
+                    ResourceNotFoundException.class,
+                    () -> accountsService.fetchAccount("9876543210")
+            );
+
+            assertTrue(exception.getMessage().contains("Account"));
+            assertTrue(exception.getMessage().contains("1"));
 
             verify(customerRepository).findByMobileNumber("9876543210");
             verify(accountsRepository).findByCustomerId(1L);
