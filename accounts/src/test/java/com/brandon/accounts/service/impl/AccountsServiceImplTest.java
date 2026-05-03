@@ -6,6 +6,7 @@ import com.brandon.accounts.dto.CustomerDto;
 import com.brandon.accounts.entity.Accounts;
 import com.brandon.accounts.entity.Customer;
 import com.brandon.accounts.exception.CustomerAlreadyExistsException;
+import com.brandon.accounts.exception.ResourceNotFoundException;
 import com.brandon.accounts.repository.AccountsRepository;
 import com.brandon.accounts.repository.CustomerRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -42,12 +43,28 @@ class AccountsServiceImplTest {
 
     private CustomerDto customerDto;
 
+    private Customer customer;
+
+    private Accounts account;
+
     @BeforeEach
     void setUp() {
         customerDto = new CustomerDto();
         customerDto.setName("John Doe");
         customerDto.setEmail("john.doe@example.com");
         customerDto.setMobileNumber("9876543210");
+
+        customer = new Customer();
+        customer.setCustomerId(1L);
+        customer.setName("John Doe");
+        customer.setEmail("john.doe@example.com");
+        customer.setMobileNumber("9876543210");
+
+        account = new Accounts();
+        account.setAccountNumber(1234567890L);
+        account.setCustomerId(1L);
+        account.setAccountType("SAVINGS");
+        account.setBranchAddress("123 Main St");
     }
 
     @Nested
@@ -59,23 +76,11 @@ class AccountsServiceImplTest {
             when(customerRepository.findByMobileNumber("9876543210"))
                     .thenReturn(Optional.empty());
 
-            Customer fetchedCustomer = new Customer();
-            fetchedCustomer.setCustomerId(1L);
-            fetchedCustomer.setName("John Doe");
-            fetchedCustomer.setEmail("john.doe@example.com");
-            fetchedCustomer.setMobileNumber("9876543210");
-
             when(customerRepository.save(any(Customer.class)))
-                    .thenReturn(fetchedCustomer);
-
-            Accounts fetchedAccount = new Accounts();
-            fetchedAccount.setAccountNumber(1234567890L);
-            fetchedAccount.setCustomerId(1L);
-            fetchedAccount.setAccountType("SAVINGS");
-            fetchedAccount.setBranchAddress("123 Main St");
+                    .thenReturn(customer);
 
             when(accountsRepository.save(any(Accounts.class)))
-                    .thenReturn(fetchedAccount);
+                    .thenReturn(account);
 
             when(streamBridge.send(eq("sendCommunication-out-0"), any(AccountsMsgDto.class)))
                     .thenReturn(true);
@@ -123,45 +128,76 @@ class AccountsServiceImplTest {
         }
     }
 
-    @Test
-    void testFetchAccountSuccessfully() {
-        //Given
+    @Nested
+    @DisplayName("Fetch Account Tests")
+    class FetchAccountTests {
+        @Test
+        void testFetchAccountSuccessfully() {
+            //Given
+            when(customerRepository.findByMobileNumber("9876543210"))
+                    .thenReturn(Optional.of(customer));
 
-        Customer fetchedCustomer = new Customer();
-        fetchedCustomer.setCustomerId(1L);
-        fetchedCustomer.setName("John Doe");
-        fetchedCustomer.setEmail("john.doe@example.com");
-        fetchedCustomer.setMobileNumber("9876543210");
+            when(accountsRepository.findByCustomerId(1L))
+                    .thenReturn(Optional.of(account));
+            //When
 
-        when(customerRepository.findByMobileNumber("9876543210"))
-        .thenReturn(Optional.of(fetchedCustomer));
+            CustomerDto result = accountsService.fetchAccount("9876543210");
 
-        Accounts fetchedAccount = new Accounts();
-        fetchedAccount.setAccountNumber(1234567890L);
-        fetchedAccount.setCustomerId(1L);
-        fetchedAccount.setAccountType("SAVINGS");
-        fetchedAccount.setBranchAddress("123 Main St");
+            //Then
+            assertNotNull(result);
+            assertEquals("John Doe", result.getName());
+            assertEquals("john.doe@example.com", result.getEmail());
+            assertEquals("9876543210", result.getMobileNumber());
 
-        when(accountsRepository.findByCustomerId(1L))
-        .thenReturn(Optional.of(fetchedAccount));
-        
-        //When
+            AccountsDto accountsDto = result.getAccountsDto();
+            assertNotNull(accountsDto);
+            assertEquals(1234567890L, accountsDto.getAccountNumber());
+            assertEquals("SAVINGS", accountsDto.getAccountType());
+            assertEquals("123 Main St", accountsDto.getBranchAddress());
 
-        CustomerDto result = accountsService.fetchAccount("9876543210");
+            verify(customerRepository).findByMobileNumber("9876543210");
+            verify(accountsRepository).findByCustomerId(1L);
+        }
 
-        //Then
-        assertNotNull(result);
-        assertEquals("John Doe", result.getName());
-        assertEquals("john.doe@example.com", result.getEmail());
-        assertEquals("9876543210", result.getMobileNumber());
+        @Test
+        void testFetchAccountThrowsExceptionWhenCustomerNotFound() {
+            //Given
+            when(customerRepository.findByMobileNumber("9876543210"))
+                    .thenReturn(Optional.empty());
 
-        AccountsDto accountsDto = result.getAccountsDto();
-        assertNotNull(accountsDto);
-        assertEquals(1234567890L, accountsDto.getAccountNumber());
-        assertEquals("SAVINGS", accountsDto.getAccountType());
-        assertEquals("123 Main St", accountsDto.getBranchAddress());
+            //When & Then
+            ResourceNotFoundException exception = assertThrows(
+                    ResourceNotFoundException.class,
+                    () -> accountsService.fetchAccount("9876543210")
+            );
 
-        verify(customerRepository).findByMobileNumber("9876543210");
-        verify(accountsRepository).findByCustomerId(1L);
+            assertTrue(exception.getMessage().contains("Customer"));
+            assertTrue(exception.getMessage().contains("9876543210"));
+
+            verify(customerRepository).findByMobileNumber("9876543210");
+            verify(accountsRepository, never()).findByCustomerId(anyLong());
+        }
+
+        @Test
+        void testFetchAccountThrowsExceptionWhenAccountNotFound() {
+            //Given
+            when(customerRepository.findByMobileNumber("9876543210"))
+                    .thenReturn(Optional.of(customer));
+
+            when(accountsRepository.findByCustomerId(1L))
+                    .thenReturn(Optional.empty());
+
+            //When & Then
+            ResourceNotFoundException exception = assertThrows(
+                    ResourceNotFoundException.class,
+                    () -> accountsService.fetchAccount("9876543210")
+            );
+
+            assertTrue(exception.getMessage().contains("Account"));
+            assertTrue(exception.getMessage().contains("1"));
+
+            verify(customerRepository).findByMobileNumber("9876543210");
+            verify(accountsRepository).findByCustomerId(1L);
+        }
     }
 }
