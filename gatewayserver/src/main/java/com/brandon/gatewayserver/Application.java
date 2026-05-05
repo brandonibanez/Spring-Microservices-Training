@@ -21,6 +21,10 @@ import java.time.LocalDateTime;
 @SpringBootApplication
 public class Application {
 
+	private final static String ACCOUNTS_URL = "http://accounts:8080";
+	private final static String CARDS_URL = "http://cards:9000";
+	private final static String LOANS_URL = "http://loans:8090";
+
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
 	}
@@ -34,7 +38,7 @@ public class Application {
 								.addResponseHeader("X-Response-Time", LocalDateTime.now().toString())
 								.circuitBreaker(config -> config.setName("accountsCircuitBreaker")
 										.setFallbackUri("forward:/contactSupport")))
-						.uri("lb://ACCOUNTS"))
+						.uri(ACCOUNTS_URL))
 				.route(r -> r
 						.path("/brandon/cards/**")
 						.filters(f -> f.rewritePath("/brandon/cards/(?<segment>.*)", "/${segment}")
@@ -42,7 +46,7 @@ public class Application {
 								.retry(retryConfig -> retryConfig.setRetries(3)
 										.setMethods(HttpMethod.GET)
 										.setBackoff(Duration.ofMillis(100), Duration.ofMillis(1000), 2, true)))
-						.uri("lb://CARDS"))
+						.uri(CARDS_URL))
 				.route(r -> r
 						.path("/brandon/loans/**")
 						.filters(f -> f.rewritePath("/brandon/loans/(?<segment>.*)", "/${segment}")
@@ -50,7 +54,7 @@ public class Application {
 								.requestRateLimiter(config -> config.setRateLimiter(redisRateLimiter())
 										.setKeyResolver(userKeyResolver())))
 
-						.uri("lb://LOANS"))
+						.uri(LOANS_URL))
 				.build();
 	}
 
