@@ -2,7 +2,8 @@ global:
   configMapName: brandonbankprod-configmap
   activeProfile: prod
   configServerURL: configserver:http://configserver:8071/
-  eurekaServerURL: http://eurekaserver:8070/eureka/
+  # eurekaServerURL: http://eurekaserver:8070/eureka/
+  discoveryServerURL: "http://spring-cloud-kubernetes-discoveryserver:80/"
   keyCloakURL: http://keycloak.default.svc.cluster.local:80/realms/master/protocol/openid-connect/certs
   openTelemetryJavaAgent: "-javaagent:/app/libs/opentelemetry-javaagent-2.22.0.jar"
   otelExporterEndPoint: http://tempo.default.svc.cluster.local:4318
