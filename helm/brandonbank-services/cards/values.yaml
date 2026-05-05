@@ -10,7 +10,7 @@ replicaCount: 1
 
 image:
   repository: brandonibanez/cards
-  tag: s14
+  tag: s15
 
 containerPort: 9000
 

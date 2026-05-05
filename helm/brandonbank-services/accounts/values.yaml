@@ -10,7 +10,7 @@ replicaCount: 1
 
 image:
   repository: brandonibanez/accounts
-  tag: s14
+  tag: s15
 
 containerPort: 8080
 service:

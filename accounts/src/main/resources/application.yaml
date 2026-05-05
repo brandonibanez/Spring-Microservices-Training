@@ -22,36 +22,39 @@ spring:
       circuitbreaker:
         enabled: true
     function:
-      definition: updateCommunication;analytics;analytics2
+      definition: updateCommunication
+      # definition: updateCommunication;analytics;analytics2
     stream:
       bindings:
         updateCommunication-in-0:
           destination: communication-sent
           group: update-communication-group
-        analytics-in-0:
-          destination: communication-sent-analytics
-        analytics-out-0:
-          destination: communication-sent-analytics
-        analytics2-in-0:
-          destination: communication-sent
         sendCommunication-out-0:
           destination: send-communication
+        # analytics-in-0:
+        #   destination: communication-sent-analytics
+        # analytics-out-0:
+        #   destination: communication-sent-analytics
+        # analytics2-in-0:
+        #   destination: communication-sent
+        # sendCommunication-out-0:
+        #   destination: send-communication
       kafka:
         binder:
           brokers: localhost:9092
-          auto-create-topics: true
-        streams:
-          binder:
-            brokers: localhost:9092
-            configuration:
-              default.key.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
-              default.value.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
-              default.auto.offset.reset: earliest
-            functions:
-              analytics:
-                applicationId: my-analytics1-id
-              analytics2:
-                applicationId: my-analytics2-id
+          # auto-create-topics: true
+        # streams:
+        #   binder:
+        #     brokers: localhost:9092
+        #     configuration:
+        #       default.key.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+        #       default.value.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+        #       default.auto.offset.reset: earliest
+        #     functions:
+        #       analytics:
+        #         applicationId: my-analytics1-id
+        #       analytics2:
+        #         applicationId: my-analytics2-id
 
 springdoc:
   api-docs:
@@ -105,7 +108,7 @@ logging:
       brandon:
         accounts: DEBUG
   pattern:
-    level: "%5p [${spring.application.name},%X{trace_id},%X{span_id}]"
+    level: "%5p [${spring.application.name},%X{trace_id} ,%X{span_id}]"
 
 resilience4j.circuitbreaker:
   configs:
