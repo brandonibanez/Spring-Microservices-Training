@@ -14,7 +14,7 @@ image:
 appname_enabled: false
 profile_enabled: false
 config_enabled: false
-eureka_enabled: false
+discovery_enabled: false
 resouceserver_enabled: false
 otel_enabled: false
 kafka_enabled: false

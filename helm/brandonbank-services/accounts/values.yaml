@@ -6,7 +6,7 @@ serviceName: accounts
 appLabel: accounts
 appName: accounts
 
-replicaCount: 1
+replicaCount: 2
 
 image:
   repository: brandonibanez/accounts
@@ -36,7 +36,7 @@ healthcheck:
 appname_enabled: true
 profile_enabled: true
 config_enabled: true
-eureka_enabled: true
+discovery_enabled: true
 resouceserver_enabled: false
 otel_enabled: true
 kafka_enabled: true
